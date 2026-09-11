@@ -59,4 +59,4 @@ launchctl unload ~/Library/LaunchAgents/com.example.xclaudenews.plist
 
 ### 8. Troubleshooting
 
-If notes aren't being filed correctly into the `X_Claude_News` notebook, check that the notebook name registered in Evernote exactly matches `EVERNOTE_NOTEBOOK` in `.env`.
+If notes aren't being filed into the expected notebook, check that the notebook name registered in Evernote exactly matches `EVERNOTE_NOTEBOOK` in `.env`.

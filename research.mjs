@@ -33,9 +33,11 @@ function buildPrompt() {
     "the 5 most valuable items.",
     "",
     "For each item, include:",
-    "- A one-line summary",
+    "- A one-line summary written in Japanese",
     "- A link to the original post",
-    "- A brief note on why it's important or interesting",
+    "- A brief note (in Japanese) on why it's important or interesting",
+    "",
+    "Write all output text in Japanese.",
     "",
     "Return the output as plain text formatted so it can be used directly as an",
     "email body (a headline plus bullet points). Do not use Markdown formatting",
@@ -129,7 +131,7 @@ async function sendEmail(bodyText) {
   const dd = String(today.getDate()).padStart(2, "0");
   const dateStr = `${yyyy}-${mm}-${dd}`;
 
-  const subject = `Claude Code X Update ${dateStr} @${process.env.EVERNOTE_NOTEBOOK}`;
+  const subject = `Claude Code X情報 ${dateStr} @${process.env.EVERNOTE_NOTEBOOK}`;
 
   const mailOptions = {
     from: process.env.GMAIL_USER,
