@@ -1,64 +1,62 @@
 # x-claude-news-watch
 
-毎朝6:00に、X(Twitter)上のClaude Code関連の最新情報を5件調査し、Evernoteのメール取り込み機能経由でノートとして保存する自動化スクリプト。
+An automation script that, every morning at 6:00, researches 5 pieces of the latest Claude Code-related news on X (Twitter) and saves them as a note via Evernote's email import feature.
 
-## セットアップ手順
+## Setup
 
-### 1. 依存パッケージのインストール・envファイルの用意
+### 1. Install dependencies and prepare the env file
 
 ```bash
 npm install
 cp .env.example .env
 ```
 
-### 2. Gmailアプリパスワードの取得
+### 2. Get a Gmail app password
 
-前提: `.env` の `GMAIL_USER` に指定した自分のGmailアドレスで2段階認証が有効になっていること。
+Prerequisite: 2-step verification must be enabled for the Gmail address you specify in `GMAIL_USER` in `.env`.
 
-1. https://myaccount.google.com/apppasswords にアクセス
-2. アプリパスワードを新規生成する
-3. 生成された16桁の文字列を `.env` の `GMAIL_APP_PASSWORD` に貼り付ける
-   (スペースを詰めても詰めなくてもどちらでも動くことが多いので、そのまま貼ってよい)
+1. Go to https://myaccount.google.com/apppasswords
+2. Generate a new app password
+3. Paste the generated 16-character string into `GMAIL_APP_PASSWORD` in `.env`
+   (it usually works whether or not you remove the spaces, so you can paste it as-is)
 
-### 3. xAI APIキー・Evernote情報の設定
+### 3. Configure the xAI API key and Evernote settings
 
-- `.env` の `XAI_API_KEY` に、xAIのAPIキーを貼り付ける
-- `.env` の `EVERNOTE_EMAIL` に、自分のEvernoteメール取り込みアドレス(`xxxxx@m.evernote.com`、Evernote設定画面で確認できる)を貼り付ける
-- `.env` の `EVERNOTE_NOTEBOOK` に、保存先のノートブック名(事前にEvernote側で作成しておく)を指定する
+- Paste your xAI API key into `XAI_API_KEY` in `.env`
+- Paste your Evernote email import address (`xxxxx@m.evernote.com`, which you can find in Evernote's settings screen) into `EVERNOTE_EMAIL` in `.env`
+- Specify the destination notebook name (create it in Evernote beforehand) in `EVERNOTE_NOTEBOOK` in `.env`
 
-### 4. 手動テスト
+### 4. Manual test
 
-このディレクトリで以下を実行し、Evernoteの指定したノートブックにノートが届くか確認する。
+Run the following in this directory and confirm that a note arrives in the specified Evernote notebook.
 
 ```bash
 node --env-file=.env research.mjs
 ```
 
-### 5. launchdジョブの有効化(macOSのみ)
+### 5. Enable the launchd job (macOS only)
 
-`launchd/com.example.xclaudenews.plist` をテンプレートとして使い、
-`/absolute/path/to/x-claude-news-watch` を自分の実際のパスに書き換えてから配置する。
+Use `launchd/com.example.xclaudenews.plist` as a template — rewrite `/absolute/path/to/x-claude-news-watch` to your actual path before installing it.
 
 ```bash
 cp launchd/com.example.xclaudenews.plist ~/Library/LaunchAgents/com.example.xclaudenews.plist
-# ファイル内の /absolute/path/to/x-claude-news-watch を実際のパスに書き換える
+# Rewrite /absolute/path/to/x-claude-news-watch in the file to your actual path
 launchctl load -w ~/Library/LaunchAgents/com.example.xclaudenews.plist
 ```
 
-これで毎朝6:00に自動実行されるようになる(時刻は plist の `StartCalendarInterval` で変更可能)。
+This makes it run automatically every morning at 6:00 (the time can be changed via the plist's `StartCalendarInterval`).
 
-### 6. launchdジョブの無効化
+### 6. Disable the launchd job
 
 ```bash
 launchctl unload ~/Library/LaunchAgents/com.example.xclaudenews.plist
 ```
 
-### 7. ログの確認場所
+### 7. Log locations
 
-- 標準出力: `logs/stdout.log`
-- 標準エラー: `logs/stderr.log`
+- stdout: `logs/stdout.log`
+- stderr: `logs/stderr.log`
 
-### 8. トラブルシューティング
+### 8. Troubleshooting
 
-ノートが `X_Claude_News` ノートブックに正しく振り分けられない場合は、Evernote側に登録されている
-ノートブック名の綴りが、`.env` の `EVERNOTE_NOTEBOOK` と完全一致しているか確認する。
+If notes aren't being filed correctly into the `X_Claude_News` notebook, check that the notebook name registered in Evernote exactly matches `EVERNOTE_NOTEBOOK` in `.env`.

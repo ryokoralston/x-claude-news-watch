@@ -12,8 +12,8 @@ function checkRequiredEnvVars() {
   const missing = REQUIRED_ENV_VARS.filter((name) => !process.env[name]);
   if (missing.length > 0) {
     console.error(
-      `[設定エラー] 以下の環境変数が未設定です: ${missing.join(", ")}\n` +
-        `.env ファイル (このディレクトリ直下) に値を設定してください。`
+      `[Configuration error] The following environment variables are not set: ${missing.join(", ")}\n` +
+        `Please set their values in the .env file (directly under this directory).`
     );
     process.exit(1);
   }
@@ -21,24 +21,25 @@ function checkRequiredEnvVars() {
 
 function buildPrompt() {
   return [
-    "X(Twitter)上で、Claude Code(Anthropicのコーディングエージェント)に関する",
-    "過去24時間以内の情報を検索してください。",
+    "Search X (Twitter) for information from the past 24 hours related to",
+    "Claude Code (Anthropic's coding agent).",
     "",
-    "対象とする情報:",
-    "- 新機能・アップデートの告知",
-    "- 便利な使い方・Tips・ワークフロー共有",
-    "- 注目度の高い議論や評価",
+    "Look for:",
+    "- Announcements of new features or updates",
+    "- Useful tips, tricks, or workflow shares",
+    "- Highly notable discussions or opinions",
     "",
-    "重複した内容や広告的な内容は除外し、最も価値がありそうな5件に絞ってください。",
+    "Exclude duplicate or advertisement-like content, and narrow the results down to",
+    "the 5 most valuable items.",
     "",
-    "各項目には以下を含めてください:",
-    "- 一行要約(日本語)",
-    "- 元投稿へのリンク",
-    "- なぜ重要/面白いか一言",
+    "For each item, include:",
+    "- A one-line summary",
+    "- A link to the original post",
+    "- A brief note on why it's important or interesting",
     "",
-    "出力はそのままメール本文として使えるプレーンテキスト形式",
-    "(見出し+箇条書き)で返してください。Markdown記法(**太字**など)は使わず、",
-    "プレーンテキストのみで整形してください。",
+    "Return the output as plain text formatted so it can be used directly as an",
+    "email body (a headline plus bullet points). Do not use Markdown formatting",
+    "(such as **bold**) — format it as plain text only.",
   ].join("\n");
 }
 
@@ -62,9 +63,9 @@ async function callXaiApi() {
     });
 
     if (!res.ok) {
-      const body = await res.text().catch(() => "(レスポンス本文の取得に失敗)");
+      const body = await res.text().catch(() => "(failed to read response body)");
       throw new Error(
-        `xAI API がエラーを返しました: HTTP ${res.status} ${res.statusText}\n${body}`
+        `xAI API returned an error: HTTP ${res.status} ${res.statusText}\n${body}`
       );
     }
 
@@ -108,7 +109,7 @@ function extractText(response) {
   }
 
   throw new Error(
-    `xAI APIレスポンスからテキストを抽出できませんでした。レスポンス全体:\n` +
+    `Could not extract text from the xAI API response. Full response:\n` +
       JSON.stringify(response, null, 2)
   );
 }
@@ -128,7 +129,7 @@ async function sendEmail(bodyText) {
   const dd = String(today.getDate()).padStart(2, "0");
   const dateStr = `${yyyy}-${mm}-${dd}`;
 
-  const subject = `Claude Code X情報 ${dateStr} @${process.env.EVERNOTE_NOTEBOOK}`;
+  const subject = `Claude Code X Update ${dateStr} @${process.env.EVERNOTE_NOTEBOOK}`;
 
   const mailOptions = {
     from: process.env.GMAIL_USER,
@@ -149,7 +150,7 @@ async function main() {
   try {
     responseJson = await callXaiApi();
   } catch (err) {
-    console.error("[xAI API呼び出しエラー]", err.message ?? err);
+    console.error("[xAI API call error]", err.message ?? err);
     process.exit(1);
   }
 
@@ -157,15 +158,15 @@ async function main() {
   try {
     bodyText = extractText(responseJson);
   } catch (err) {
-    console.error("[レスポンス解析エラー]", err.message ?? err);
+    console.error("[Response parsing error]", err.message ?? err);
     process.exit(1);
   }
 
   try {
     const { subject, to } = await sendEmail(bodyText);
-    console.log(`[完了] メールを送信しました → 宛先: ${to} / 件名: ${subject}`);
+    console.log(`[Done] Email sent → to: ${to} / subject: ${subject}`);
   } catch (err) {
-    console.error("[メール送信エラー]", err.message ?? err);
+    console.error("[Email send error]", err.message ?? err);
     process.exit(1);
   }
 }

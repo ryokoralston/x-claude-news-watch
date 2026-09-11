@@ -1,7 +1,7 @@
 {
   "name": "x-claude-news-watch",
   "version": "1.0.0",
-  "description": "毎朝X(Twitter)上のClaude Code関連情報を調査してEvernoteに保存する自動化スクリプト",
+  "description": "Automation script that researches Claude Code-related information on X (Twitter) every morning and saves it to Evernote",
   "type": "module",
   "private": true,
   "main": "research.mjs",
