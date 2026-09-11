@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.example.xclaudenews</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/opt/homebrew/bin/node</string>
+		<string>--env-file=/absolute/path/to/x-claude-news-watch/.env</string>
+		<string>/absolute/path/to/x-claude-news-watch/research.mjs</string>
+	</array>
+	<key>WorkingDirectory</key>
+	<string>/absolute/path/to/x-claude-news-watch</string>
+	<key>StartCalendarInterval</key>
+	<dict>
+		<key>Hour</key>
+		<integer>6</integer>
+		<key>Minute</key>
+		<integer>0</integer>
+	</dict>
+	<key>StandardOutPath</key>
+	<string>/absolute/path/to/x-claude-news-watch/logs/stdout.log</string>
+	<key>StandardErrorPath</key>
+	<string>/absolute/path/to/x-claude-news-watch/logs/stderr.log</string>
+	<key>RunAtLoad</key>
+	<false/>
+</dict>
+</plist>

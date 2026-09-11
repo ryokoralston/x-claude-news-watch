@@ -1,0 +1,14 @@
+{
+  "name": "x-claude-news-watch",
+  "version": "1.0.0",
+  "description": "毎朝X(Twitter)上のClaude Code関連情報を調査してEvernoteに保存する自動化スクリプト",
+  "type": "module",
+  "private": true,
+  "main": "research.mjs",
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "dependencies": {
+    "nodemailer": "^10.0.3"
+  }
+}
