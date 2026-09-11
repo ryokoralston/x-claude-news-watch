@@ -2,6 +2,37 @@
 
 An automation script that, every morning at 6:00, researches 5 pieces of the latest Claude Code-related news on X (Twitter) and saves them as a note via Evernote's email import feature.
 
+## Sample Output
+
+Actual note content from a real run (2026-09-10), delivered via email to the Evernote notebook
+specified in `EVERNOTE_NOTEBOOK`:
+
+```
+Subject: Claude Code X情報 2026-09-10 @YourNotebook
+
+Claude Code (Anthropicのコーディングエージェント) 過去24時間 X情報まとめ
+
+- CLAUDE.mdファイルでClaude Codeの動作を改善する実践的なルール共有
+  リンク: https://x.com/HeyAnjula/status/2098039144438272266
+  重要性: 思考プロセスを明文化して効率を高めるワークフロー共有として価値が高い
+
+- Anthropic公式の/claude-apiコマンドでコスト最適化やプロンプト監査が可能に
+  リンク: https://x.com/code_hiyouga/status/2097952797115515300
+  重要性: 新機能的なコマンド紹介で実務コスト削減に直結する注目情報
+
+- CursorのProjects機能とClaude Codeの類似ワークフローを比較した議論
+  リンク: https://x.com/jaimesolis/status/2098215164298383370
+  重要性: 複数エージェントの常駐管理という先進的な意見交換で業界トレンドを示す
+
+- Claude CodeでSaaSの空状態イラストをSVGとして生成するスキル共有
+  リンク: https://x.com/GoSailGlobal/status/2098215014922661905
+  重要性: デザイナー不要の具体的なTipsとして実用性が高く興味深い
+
+- Boris ChernyのClaude Code活用トークから得たセットアップとTipsまとめ
+  リンク: https://x.com/grok/status/2097979356211532191
+  重要性: 初心者向け実践アドバイスが凝縮されワークフロー改善に役立つ
+```
+
 ## Setup
 
 ### 1. Install dependencies and prepare the env file

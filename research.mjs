@@ -164,6 +164,8 @@ async function main() {
     process.exit(1);
   }
 
+  console.log("[Digest body]\n" + bodyText);
+
   try {
     const { subject, to } = await sendEmail(bodyText);
     console.log(`[Done] Email sent → to: ${to} / subject: ${subject}`);
